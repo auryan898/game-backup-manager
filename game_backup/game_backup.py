@@ -404,7 +404,8 @@ def create_page2(log):
         if not os.path.exists(filename):
             filename = HOME
         filename = askdirectory(filename)
-        save_entryvar.set(filename)
+        if os.path.exists(filename):
+            save_entryvar.set(os.path.abspath(filename))
 
     @logger_exception
     def filepick_store(*args, **kwargs):
@@ -412,7 +413,8 @@ def create_page2(log):
         if not os.path.exists(filename):
             filename = HOME
         filename = askdirectory(filename)
-        store_entryvar.set(filename)
+        if os.path.exists(filename):
+            store_entryvar.set(os.path.abspath(filename))
     @logger_exception
     def config_list_action(*args, **kwargs):
         update_config_entry()
@@ -427,6 +429,9 @@ def create_page2(log):
     save_filepicker.bind("<Button>", filepick_save)
     store_filepicker.bind("<Button>", filepick_store)
     page2.bind("<Button>", update_config_list)
+
+    update_config_list()
+    
     return page2
 
 
